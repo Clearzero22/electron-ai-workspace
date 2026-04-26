@@ -7,8 +7,9 @@ import React, { useState } from 'react'
 import WorkflowEditor from '../components/WorkflowEditor'
 import MultilangTestPage from '../components/MultilangTestPage'
 import WorkspaceMain from '../components/workspace/Workspace'
+import WindowDemo from '../components/WindowDemo'
 
-type PageType = 'workflow' | 'collection' | 'multilang'
+type PageType = 'workflow' | 'collection' | 'multilang' | 'window-demo'
 
 export default function Workspace() {
   const [currentPage, setCurrentPage] = useState<PageType>('collection')
@@ -16,7 +17,8 @@ export default function Workspace() {
   const pages = [
     { id: 'collection' as PageType, name: '商品采集', icon: '🛒', description: '采集电商平台商品数据' },
     { id: 'workflow' as PageType, name: '工作流编辑', icon: '⚙️', description: '设计和自动化工作流程' },
-    { id: 'multilang' as PageType, name: '多语言服务', icon: '🌍', description: 'AI翻译和文本处理' }
+    { id: 'multilang' as PageType, name: '多语言服务', icon: '🌍', description: 'AI翻译和文本处理' },
+    { id: 'window-demo' as PageType, name: '多窗口测试', icon: '🪟', description: '测试多窗口管理功能' }
   ]
 
   const renderPage = () => {
@@ -25,6 +27,8 @@ export default function Workspace() {
         return <WorkflowEditor />
       case 'multilang':
         return <MultilangTestPage />
+      case 'window-demo':
+        return <WindowDemo />
       case 'collection':
       default:
         return <WorkspaceMain />
