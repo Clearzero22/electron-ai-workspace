@@ -15,7 +15,7 @@ export function useWindowManager() {
   // 获取当前窗口信息
   const refreshWindowInfo = useCallback(async () => {
     try {
-      const info = await window.window.getWindowInfo()
+      const info = await (window as any).wm.getWindowInfo()
       setWindowInfo(info)
     } catch (error) {
       console.error('Failed to get window info:', error)
@@ -25,7 +25,7 @@ export function useWindowManager() {
   // 获取所有窗口信息
   const refreshAllWindows = useCallback(async () => {
     try {
-      const result = await window.window.getAllWindows()
+      const result = await (window as any).wm.getAllWindows()
       if (result.success) {
         setAllWindows(result.windows || [])
       }
@@ -48,7 +48,7 @@ export function useWindowManager() {
       alwaysOnTop?: boolean
     }) => {
       try {
-        const result = await window.window.createWindow(config)
+        const result = await (window as any).wm.createWindow(config)
         if (result.success) {
           // 刷新窗口列表
           setTimeout(() => refreshAllWindows(), 100)
@@ -66,7 +66,7 @@ export function useWindowManager() {
   const closeWindow = useCallback(
     async (windowId: string) => {
       try {
-        const result = await window.window.closeWindow(windowId)
+        const result = await (window as any).wm.closeWindow(windowId)
         if (result.success) {
           // 刷新窗口列表
           setTimeout(() => refreshAllWindows(), 100)
@@ -83,7 +83,7 @@ export function useWindowManager() {
   // 广播消息
   const broadcast = useCallback(async (channel: string, ...args: any[]) => {
     try {
-      return await window.window.broadcast(channel, ...args)
+      return await (window as any).wm.broadcast(channel, ...args)
     } catch (error) {
       console.error('Failed to broadcast:', error)
       return { success: false, error: String(error) }
@@ -93,7 +93,7 @@ export function useWindowManager() {
   // 发送消息到指定窗口
   const sendToWindow = useCallback(async (windowId: string, channel: string, ...args: any[]) => {
     try {
-      return await window.window.sendToWindow(windowId, channel, ...args)
+      return await (window as any).wm.sendToWindow(windowId, channel, ...args)
     } catch (error) {
       console.error('Failed to send to window:', error)
       return { success: false, error: String(error) }
@@ -102,23 +102,23 @@ export function useWindowManager() {
 
   // 窗口控制
   const minimize = useCallback(async () => {
-    return await window.window.minimize()
+    return await (window as any).wm.minimize()
   }, [])
 
   const maximize = useCallback(async () => {
-    return await window.window.maximize()
+    return await (window as any).wm.maximize()
   }, [])
 
   const hide = useCallback(async () => {
-    return await window.window.hide()
+    return await (window as any).wm.hide()
   }, [])
 
   const show = useCallback(async () => {
-    return await window.window.show()
+    return await (window as any).wm.show()
   }, [])
 
   const focus = useCallback(async () => {
-    return await window.window.focus()
+    return await (window as any).wm.focus()
   }, [])
 
   // 初始化
@@ -153,10 +153,10 @@ export function useWindowCommunication(channel: string, callback: (...args: any[
       callback(...args)
     }
 
-    window.window.onWindowMessage(channel, handleMessage)
+    (window as any).wm.onWindowMessage(channel, handleMessage)
 
     return () => {
-      window.window.removeWindowMessageListener(channel, handleMessage)
+      (window as any).wm.removeWindowMessageListener(channel, handleMessage)
     }
   }, [channel, callback])
 }

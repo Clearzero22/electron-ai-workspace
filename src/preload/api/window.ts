@@ -136,15 +136,3 @@ export const windowAPI = {
     ipcRenderer.once(channel, callback)
   }
 }
-
-/**
- * 在contextBridge中暴露窗口API
- */
-export function exposeWindowAPI() {
-  const existingAPI = (window as any).electronAPI || {}
-
-  return {
-    ...existingAPI,
-    window: windowAPI
-  }
-}

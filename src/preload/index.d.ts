@@ -70,7 +70,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     multilang: MultilangAPI
-    window: WindowAPI
+    wm: WindowAPI
     api: unknown
   }
 }

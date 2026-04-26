@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import WorkflowEditor from '../components/WorkflowEditor'
 import MultilangTestPage from '../components/MultilangTestPage'
 import WorkspaceMain from '../components/workspace/Workspace'
-import WindowDemo from '../components/WindowDemo'
+import SimpleWindowTest from '../components/SimpleWindowTest'
 
 type PageType = 'workflow' | 'collection' | 'multilang' | 'window-demo'
 
@@ -28,7 +28,7 @@ export default function Workspace() {
       case 'multilang':
         return <MultilangTestPage />
       case 'window-demo':
-        return <WindowDemo />
+        return <SimpleWindowTest />
       case 'collection':
       default:
         return <WorkspaceMain />

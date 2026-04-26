@@ -3,18 +3,38 @@
  * 展示如何使用窗口管理功能
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useWindowManager, useWindowCommunication, WindowPresets } from '../hooks/useWindowManager'
 
 export default function WindowDemo() {
-  const { allWindows, createWindow, closeWindow, broadcast, sendToWindow, windowInfo } =
+  const [isReady, setIsReady] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const { allWindows, createWindow, closeWindow, broadcast, sendToWindow, windowInfo, refreshAllWindows } =
     useWindowManager()
 
   const [message, setMessage] = useState('')
   const [receivedMessages, setReceivedMessages] = useState<any[]>([])
 
+  // 检查API是否可用
+  useEffect(() => {
+    try {
+      if (window.window) {
+        setIsReady(true)
+        console.log('Window API available:', window.window)
+      } else {
+        setError('窗口API不可用')
+        console.error('Window API not found on window object')
+      }
+    } catch (err) {
+      setError(String(err))
+      console.error('Error initializing window demo:', err)
+    }
+  }, [])
+
   // 监听来自其他窗口的消息
   useWindowCommunication('window:demo:message', (data) => {
+    console.log('Received message:', data)
     setReceivedMessages((prev) => [...prev, { ...data, timestamp: new Date().toLocaleTimeString() }])
   })
 
@@ -53,6 +73,25 @@ export default function WindowDemo() {
   return (
     <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
       <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">多窗口管理演示</h2>
+
+      {/* 调试信息 */}
+      <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-xs">
+        <div className="font-mono text-gray-700 dark:text-gray-300">
+          <div>API可用: {String(!!window.window)}</div>
+          <div>multilang可用: {String(!!window.multilang)}</div>
+          <div>electron可用: {String(!!window.electron)}</div>
+          <div>Keys: {Object.keys(window).filter(k => k.startsWith('window') || k === 'multilang').join(', ')}</div>
+        </div>
+      </div>
+
+      {/* 错误显示 */}
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <div className="text-sm text-red-800 dark:text-red-300">
+            ⚠️ {error}
+          </div>
+        </div>
+      )}
 
       {/* 当前窗口信息 */}
       <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">

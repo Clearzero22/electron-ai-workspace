@@ -1,7 +1,7 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { exposeMultilangAPI } from './api/multilang'
-import { exposeWindowAPI } from './api/window'
+import { windowAPI } from './api/window'
 
 // Custom APIs for renderer
 const api = {}
@@ -17,9 +17,8 @@ if (process.contextIsolated) {
     // 暴露多语言服务API
     exposeMultilangAPI()
 
-    // 暴露窗口管理API
-    const windowAPI = exposeWindowAPI()
-    contextBridge.exposeInMainWorld('window', windowAPI.window)
+    // 暴露窗口管理API - 使用wm避免与原生window冲突
+    contextBridge.exposeInMainWorld('wm', windowAPI)
 
     // 暴露其他API
     contextBridge.exposeInMainWorld('api', api)
