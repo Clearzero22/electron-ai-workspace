@@ -22,10 +22,55 @@ interface MultilangAPI {
   healthCheck(serviceType?: string): Promise<boolean | Record<string, boolean>>
 }
 
+/**
+ * 窗口管理API接口
+ */
+interface WindowAPI {
+  createWindow(config: {
+    id: string
+    route?: string
+    title?: string
+    width?: number
+    height?: number
+    minWidth?: number
+    minHeight?: number
+    modal?: boolean
+    resizable?: boolean
+    parent?: string
+    alwaysOnTop?: boolean
+    frame?: boolean
+    transparent?: boolean
+  }): Promise<{ success: boolean; windowId?: string; error?: string }>
+
+  closeWindow(windowId: string): Promise<{ success: boolean; error?: string }>
+  getWindowInfo(): Promise<any>
+  getAllWindows(): Promise<{ success: boolean; windows: any[]; error?: string }>
+
+  sendToWindow(windowId: string, channel: string, ...args: any[]): Promise<{ success: boolean; error?: string }>
+  broadcast(channel: string, ...args: any[]): Promise<{ success: boolean; error?: string }>
+
+  minimize(): Promise<{ success: boolean }>
+  maximize(): Promise<{ success: boolean }>
+  hide(): Promise<{ success: boolean }>
+  show(): Promise<{ success: boolean }>
+  focus(): Promise<{ success: boolean }>
+  blur(): Promise<{ success: boolean }>
+
+  setTitle(title: string): Promise<{ success: boolean }>
+  setSize(width: number, height: number): Promise<{ success: boolean }>
+  setPosition(x: number, y: number): Promise<{ success: boolean }>
+  center(): Promise<{ success: boolean }>
+
+  onWindowMessage(channel: string, callback: (...args: any[]) => void): void
+  removeWindowMessageListener(channel: string, callback: (...args: any[]) => void): void
+  onceWindowMessage(channel: string, callback: (...args: any[]) => void): void
+}
+
 declare global {
   interface Window {
     electron: ElectronAPI
     multilang: MultilangAPI
+    window: WindowAPI
     api: unknown
   }
 }

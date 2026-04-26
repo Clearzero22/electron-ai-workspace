@@ -3,37 +3,19 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { registerIPCHandlers } from './ipc'
+import { registerWindowIPCHandlers } from './ipc/window'
+import { windowManager } from './windowManager'
 
 function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
+  // 使用窗口管理器创建主窗口
+  windowManager.createWindow({
+    id: 'main',
+    title: 'AI CrossBorder - 跨境电商工作台',
+    width: 1200,
+    height: 800,
+    minWidth: 900,
+    minHeight: 600
   })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
 }
 
 // This method will be called when Electron has finished
@@ -56,12 +38,24 @@ app.whenReady().then(() => {
   // 注册所有IPC处理器（Python AI服务、Go爬虫服务、服务管理）
   registerIPCHandlers()
 
+  // 注册窗口管理IPC处理器
+  registerWindowIPCHandlers()
+
   createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) {
+      windowManager.createWindow({
+        id: 'main',
+        title: 'AI CrossBorder - 跨境电商工作台',
+        width: 1200,
+        height: 800,
+        minWidth: 900,
+        minHeight: 600
+      })
+    }
   })
 })
 
