@@ -20,7 +20,7 @@ export function usePythonAI() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.analyzeImage(imagePath)
+      const result = await window.multilang.analyzeImage(imagePath)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -39,7 +39,7 @@ export function usePythonAI() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.generateDescription(product)
+      const result = await window.multilang.generateDescription(product)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -58,7 +58,7 @@ export function usePythonAI() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.translate(text, targetLang)
+      const result = await window.multilang.translate(text, targetLang)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -77,7 +77,7 @@ export function usePythonAI() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.extractKeywords(text, maxKeywords)
+      const result = await window.multilang.extractKeywords(text, maxKeywords)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -115,7 +115,7 @@ export function useGoCrawler() {
     setProgress(0)
 
     try {
-      const result = await window.electronAPI.multilang.crawlProduct(url)
+      const result = await window.multilang.crawlProduct(url)
       setProgress(100)
       return result
     } catch (err) {
@@ -136,7 +136,7 @@ export function useGoCrawler() {
     setProgress(0)
 
     try {
-      const result = await window.electronAPI.multilang.batchCrawl(urls)
+      const result = await window.multilang.batchCrawl(urls)
 
       // 模拟进度更新
       for (let i = 0; i < urls.length; i++) {
@@ -164,7 +164,7 @@ export function useGoCrawler() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.monitorPrice(url)
+      const result = await window.multilang.monitorPrice(url)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -183,7 +183,7 @@ export function useGoCrawler() {
     setError(null)
 
     try {
-      const result = await window.electronAPI.multilang.crawlCompetitors(productName)
+      const result = await window.multilang.crawlCompetitors(productName)
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
@@ -219,7 +219,7 @@ export function useServiceManager() {
     setLoading(true)
 
     try {
-      const status = await window.electronAPI.multilang.getServiceStatus()
+      const status = await window.multilang.getServiceStatus()
       setServices(
         status.reduce((acc: Record<string, boolean>, s: any) => {
           acc[s.type] = s.healthy
@@ -242,7 +242,7 @@ export function useServiceManager() {
     setLoading(true)
 
     try {
-      const result = await window.electronAPI.multilang.restartService(serviceType)
+      const result = await window.multilang.restartService(serviceType)
       await checkServices()
       return result
     } catch (err) {
