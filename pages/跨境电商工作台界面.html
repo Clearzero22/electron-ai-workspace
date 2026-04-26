@@ -1,0 +1,2207 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI CrossBorder - 沙发产品开发项目</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .step-connector {
+        position: relative;
+      }
+      .step-connector::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -20px;
+        width: 20px;
+        height: 1px;
+        background: #e5e7eb;
+      }
+      .step-active {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      }
+      .tag-blue {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+      }
+      .browser-mockup {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+      }
+      .color-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 1px #e5e7eb;
+      }
+      .ai-badge {
+        background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%);
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+      }
+      .status-pass {
+        background: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #bbf7d0;
+      }
+      .status-pending {
+        background: #fefce8;
+        color: #ca8a04;
+        border: 1px solid #fde047;
+      }
+      .status-ai {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+      }
+      .bottom-flow-arrow::after {
+        content: '→';
+        position: absolute;
+        right: -18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+      .detect-box {
+        position: absolute;
+        border: 2px solid #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: 4px;
+      }
+      .gradient-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      }
+    </style>
+    <base target="_blank" />
+  </head>
+  <body class="bg-gray-50 h-screen overflow-hidden text-gray-800">
+    <div class="flex h-full">
+      <!-- 左侧导航栏 -->
+      <aside class="w-56 bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
+        <!-- Logo -->
+        <div class="p-4 border-b border-gray-100">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-lg gradient-blue flex items-center justify-center text-white"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-gray-900">AI CrossBorder</div>
+              <div class="text-[10px] text-gray-500">跨境电商商品开发助手</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-2 scrollbar-hide">
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium bg-blue-50 text-blue-600"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                />
+              </svg>
+              工作台
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                />
+              </svg>
+              项目管理
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
+              </svg>
+              商品资料表
+              <svg
+                class="w-3 h-3 ml-auto text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              采集任务
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              图片分析
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+              竞品分析
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+                />
+              </svg>
+              关键词词库
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              AI 内容生成
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              合规检查
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              资料导出
+            </a>
+          </div>
+          <div class="px-3 mb-1 mt-4 pt-4 border-t border-gray-100">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+                />
+              </svg>
+              模板中心
+            </a>
+          </div>
+          <div class="px-3 mb-1">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              系统设置
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- 主内容区 -->
+      <main class="flex-1 flex flex-col min-w-0 bg-gray-50 overflow-hidden">
+        <!-- 顶部栏 -->
+        <header
+          class="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 flex-shrink-0"
+        >
+          <div class="flex items-center gap-2 text-sm text-gray-600">
+            <svg
+              class="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <span class="text-gray-500">沙发产品开发项目</span>
+            <span class="text-gray-300">/</span>
+            <span class="font-medium text-gray-900">GIGAB2B 采集任务 #001</span>
+            <svg
+              class="w-3.5 h-3.5 text-gray-400 cursor-pointer"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+          </div>
+          <div class="flex items-center gap-3">
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+            </button>
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+            <button
+              class="px-4 py-1.5 rounded-lg gradient-blue text-white text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              开始新任务
+            </button>
+            <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+              <div
+                class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white text-xs font-bold"
+              >
+                张
+              </div>
+              <span class="text-sm text-gray-700">张先生</span>
+              <svg
+                class="w-3.5 h-3.5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </header>
+
+        <!-- 流程步骤条 -->
+        <div class="bg-white border-b border-gray-200 px-6 py-3 flex-shrink-0">
+          <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="3"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-900">创建项目</span>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full step-active text-white flex items-center justify-center text-xs font-bold"
+              >
+                3
+              </div>
+              <span class="text-sm font-medium text-blue-600">采集商品</span>
+              <div class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-medium"
+              >
+                4
+              </div>
+              <span class="text-sm text-gray-500">校验资料</span>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-medium"
+              >
+                4
+              </div>
+              <span class="text-sm text-gray-500">分析竞品</span>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-medium"
+              >
+                6
+              </div>
+              <span class="text-sm text-gray-500">生成内容</span>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-medium"
+              >
+                7
+              </div>
+              <span class="text-sm text-gray-500">合规检查</span>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-medium"
+              >
+                8
+              </div>
+              <span class="text-sm text-gray-500">导出资料包</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 可滚动内容区 -->
+        <div class="flex-1 overflow-y-auto scrollbar-hide p-4">
+          <!-- 第一行：采集配置 + 浏览器预览 + AI结果 -->
+          <div class="flex gap-4 mb-4">
+            <!-- 左侧：采集配置 -->
+            <div class="w-64 flex-shrink-0 space-y-4">
+              <!-- 采集来源 -->
+              <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3">采集来源</h3>
+                <div class="flex gap-2 mb-3">
+                  <span
+                    class="px-2 py-1 rounded-md bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100"
+                    >GIGAB2B</span
+                  >
+                  <span
+                    class="px-2 py-1 rounded-md text-gray-500 text-xs hover:bg-gray-50 cursor-pointer"
+                    >关键词搜索</span
+                  >
+                  <span
+                    class="px-2 py-1 rounded-md text-gray-500 text-xs hover:bg-gray-50 cursor-pointer"
+                    >批量导入</span
+                  >
+                </div>
+                <input
+                  type="text"
+                  value="https://www.gigab2b.com/product/12345"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600 focus:outline-none mb-2"
+                />
+                <button
+                  class="w-full py-2 gradient-blue text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  打开网页
+                </button>
+              </div>
+
+              <!-- 搜索关键词 -->
+              <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3">搜索关键词</h3>
+                <div class="flex flex-wrap gap-2 mb-2">
+                  <span
+                    class="px-2 py-1 bg-gray-100 rounded-md text-xs text-gray-600 flex items-center gap-1"
+                    >Couch
+                    <svg
+                      class="w-3 h-3 text-gray-400 cursor-pointer"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      /></svg
+                  ></span>
+                  <span
+                    class="px-2 py-1 bg-gray-100 rounded-md text-xs text-gray-600 flex items-center gap-1"
+                    >Sofa
+                    <svg
+                      class="w-3 h-3 text-gray-400 cursor-pointer"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      /></svg
+                  ></span>
+                  <span
+                    class="px-2 py-1 bg-gray-100 rounded-md text-xs text-gray-600 flex items-center gap-1"
+                    >Sectional Sofa
+                    <svg
+                      class="w-3 h-3 text-gray-400 cursor-pointer"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      /></svg
+                  ></span>
+                </div>
+                <button class="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  添加
+                </button>
+              </div>
+
+              <!-- 抓取选项 -->
+              <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3">抓取选项</h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span class="text-xs text-gray-600">商品基础参数</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span class="text-xs text-gray-600">价格 & MOQ</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span class="text-xs text-gray-600">所有图片</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span class="text-xs text-gray-600">详情描述</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 中间：浏览器自动化预览 -->
+            <div class="flex-1 bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                <div class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4 text-blue-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
+                  </svg>
+                  <span class="text-sm font-semibold text-gray-900">浏览器自动化预览</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="flex items-center gap-1.5 text-xs text-green-600">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    运行中
+                  </span>
+                  <span class="text-xs text-gray-500">00:12</span>
+                </div>
+              </div>
+              <div class="p-3">
+                <!-- 地址栏 -->
+                <div
+                  class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 mb-3 border border-gray-200"
+                >
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                  </button>
+                  <div class="flex-1 text-xs text-gray-600 truncate">
+                    https://www.gigab2b.com/products/modern-sofa-001
+                  </div>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <!-- 浏览器内容 -->
+                <div class="flex gap-3">
+                  <!-- 左侧缩略图 -->
+                  <div class="w-16 flex-shrink-0 space-y-2">
+                    <div
+                      class="aspect-square rounded-lg bg-gray-100 overflow-hidden border-2 border-blue-500 cursor-pointer"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100&h=100&fit=crop"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div
+                      class="aspect-square rounded-lg bg-gray-100 overflow-hidden border border-gray-200 cursor-pointer opacity-60"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?w=100&h=100&fit=crop"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div
+                      class="aspect-square rounded-lg bg-gray-100 overflow-hidden border border-gray-200 cursor-pointer opacity-60"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=100&h=100&fit=crop"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div
+                      class="aspect-square rounded-lg bg-gray-100 overflow-hidden border border-gray-200 cursor-pointer opacity-60"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=100&h=100&fit=crop"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <!-- 主图 -->
+                  <div class="flex-1 relative rounded-xl overflow-hidden bg-gray-100 aspect-[4/3]">
+                    <img
+                      src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop"
+                      class="w-full h-full object-cover"
+                    />
+                    <button
+                      class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-white transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-white transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右侧：AI自动抓取结果 + AI视觉解析 -->
+            <div class="w-80 flex-shrink-0 space-y-4">
+              <!-- AI自动抓取结果 -->
+              <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-semibold text-gray-900">AI 自动抓取结果</h3>
+                  <span class="ai-badge px-2 py-0.5 rounded-full text-xs flex items-center gap-1">
+                    <svg
+                      class="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                    识别完成
+                  </span>
+                  <span class="text-xs text-blue-600 font-medium">85%</span>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">商品名称</span>
+                    <input
+                      type="text"
+                      value="Modern Fabric Sofa Couch"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">材质</span>
+                    <input
+                      type="text"
+                      value="Linen + Solid Wood"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">尺寸</span>
+                    <input
+                      type="text"
+                      value="180 × 90 × 75 cm"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">重量</span>
+                    <input
+                      type="text"
+                      value="38 kg"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">价格</span>
+                    <input
+                      type="text"
+                      value="$56.00"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">MOQ</span>
+                    <input
+                      type="text"
+                      value="50 pcs"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">型号</span>
+                    <input
+                      type="text"
+                      value="GB2B-SF-2024"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">颜色</span>
+                    <div class="flex items-center gap-1.5">
+                      <div class="color-dot" style="background: #f5f5dc"></div>
+                      <div class="color-dot" style="background: #808080"></div>
+                      <div class="color-dot" style="background: #4a90e2"></div>
+                      <div class="color-dot" style="background: #2d5016"></div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-14 flex-shrink-0">起订量</span>
+                    <input
+                      type="text"
+                      value="50"
+                      class="flex-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+                <button
+                  class="w-full mt-3 py-2 gradient-blue text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  保存到资料表
+                </button>
+              </div>
+
+              <!-- AI视觉解析图片 -->
+              <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-semibold text-gray-900">AI 视觉解析图片</h3>
+                  <div class="flex items-center gap-2">
+                    <button
+                      class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <span class="text-xs text-gray-500">3/6</span>
+                    <button
+                      class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="relative rounded-xl overflow-hidden bg-gray-100 aspect-[4/3] mb-3">
+                  <img
+                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=450&fit=crop"
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- 检测框 -->
+                  <div
+                    class="detect-box"
+                    style="left: 10%; top: 20%; width: 80%; height: 60%"
+                  ></div>
+                  <div class="absolute bottom-2 right-2 flex gap-1">
+                    <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                    <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                    <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="text-xs text-gray-500 mb-2">识别结果</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span
+                      class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs border border-blue-100"
+                      >三人位沙发</span
+                    >
+                    <span
+                      class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs border border-blue-100"
+                      >布艺材质</span
+                    >
+                    <span
+                      class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs border border-blue-100"
+                      >现代简约风</span
+                    >
+                    <span
+                      class="px-2 py-0.5 bg-green-50 text-green-600 rounded text-xs border border-green-100"
+                      >可拆洗设计</span
+                    >
+                    <span
+                      class="px-2 py-0.5 bg-green-50 text-green-600 rounded text-xs border border-green-100"
+                      >客厅场景</span
+                    >
+                  </div>
+                </div>
+                <button
+                  class="w-full py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  重新识别
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第二行：商品资料表 + 竞品分析 + 关键词词库 -->
+          <div class="flex gap-4 mb-4">
+            <!-- 商品资料表 -->
+            <div class="flex-1 bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-900">商品资料表（人工校验）</h3>
+                <div class="flex items-center gap-2">
+                  <button
+                    class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs text-gray-600 hover:bg-gray-50 transition-colors"
+                  >
+                    批量操作
+                  </button>
+                  <button
+                    class="px-3 py-1.5 gradient-blue text-white rounded-lg text-xs font-medium hover:opacity-90 transition-opacity flex items-center gap-1"
+                  >
+                    <svg
+                      class="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      />
+                    </svg>
+                    导出Excel
+                  </button>
+                </div>
+              </div>
+              <div class="px-4 py-3 flex items-center gap-3 border-b border-gray-50">
+                <div class="relative flex-1 max-w-xs">
+                  <svg
+                    class="w-4 h-4 absolute left-3 top-2 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="搜索商品名称/型号..."
+                    class="w-full pl-9 pr-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <select
+                  class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600 focus:outline-none"
+                >
+                  <option>全部状态</option>
+                </select>
+                <select
+                  class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600 focus:outline-none"
+                >
+                  <option>类目：沙发</option>
+                </select>
+                <select
+                  class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600 focus:outline-none"
+                >
+                  <option>来源：GIGAB2B</option>
+                </select>
+              </div>
+              <table class="w-full text-xs">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-500">
+                    <th class="px-4 py-2 w-8">
+                      <input type="checkbox" class="rounded border-gray-300" />
+                    </th>
+                    <th class="px-4 py-2 text-left font-medium">商品图片</th>
+                    <th class="px-4 py-2 text-left font-medium">商品名称</th>
+                    <th class="px-4 py-2 text-left font-medium">材质</th>
+                    <th class="px-4 py-2 text-left font-medium">尺寸</th>
+                    <th class="px-4 py-2 text-left font-medium">价格</th>
+                    <th class="px-4 py-2 text-left font-medium">MOQ</th>
+                    <th class="px-4 py-2 text-left font-medium">AI状态</th>
+                    <th class="px-4 py-2 text-left font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                      <input type="checkbox" class="rounded border-gray-300" />
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden">
+                        <img
+                          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100&h=100&fit=crop"
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="font-medium text-gray-900">Modern Fabric Sofa</div>
+                      <div class="text-gray-400">GB2B-SF-2024</div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600">Linen</td>
+                    <td class="px-4 py-3 text-gray-600">180×90×75</td>
+                    <td class="px-4 py-3 text-gray-900 font-medium">$56.00</td>
+                    <td class="px-4 py-3 text-gray-600">50</td>
+                    <td class="px-4 py-3">
+                      <span class="status-pass px-2 py-0.5 rounded text-xs">已确认</span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2">
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                      <input type="checkbox" class="rounded border-gray-300" />
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden">
+                        <img
+                          src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?w=100&h=100&fit=crop"
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="font-medium text-gray-900">Sectional Couch Set</div>
+                      <div class="text-gray-400">GB2B-SC-2024</div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600">Velvet</td>
+                    <td class="px-4 py-3 text-gray-600">220×150×85</td>
+                    <td class="px-4 py-3 text-gray-900 font-medium">$89.50</td>
+                    <td class="px-4 py-3 text-gray-600">20</td>
+                    <td class="px-4 py-3">
+                      <span class="status-pending px-2 py-0.5 rounded text-xs">待确认</span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2">
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                      <input type="checkbox" class="rounded border-gray-300" />
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden">
+                        <img
+                          src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=100&h=100&fit=crop"
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="font-medium text-gray-900">Convertible Sofa Bed</div>
+                      <div class="text-gray-400">GB2B-SB-1023</div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600">PU Leather</td>
+                    <td class="px-4 py-3 text-gray-600">200×100×80</td>
+                    <td class="px-4 py-3 text-gray-900 font-medium">$72.30</td>
+                    <td class="px-4 py-3 text-gray-600">30</td>
+                    <td class="px-4 py-3">
+                      <span class="status-ai px-2 py-0.5 rounded text-xs">AI识别中</span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2">
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="text-gray-400 hover:text-blue-600">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 竞品分析 -->
+            <div class="w-72 flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-gray-900">竞品分析（Amazon）</h3>
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="space-y-3">
+                <div class="border border-gray-100 rounded-lg p-2">
+                  <div class="aspect-video rounded-lg bg-gray-100 overflow-hidden mb-2">
+                    <img
+                      src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=200&fit=crop"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="text-xs font-medium text-gray-900 truncate">Modern Sofa Couch</div>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-900 font-bold">$199.99</span>
+                    <span class="text-xs text-gray-400">(1,234)</span>
+                  </div>
+                  <div class="flex items-center gap-0.5 mt-1">
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="border border-gray-100 rounded-lg p-2">
+                  <div class="aspect-video rounded-lg bg-gray-100 overflow-hidden mb-2">
+                    <img
+                      src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?w=300&h=200&fit=crop"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="text-xs font-medium text-gray-900 truncate">3-Seater Fabric Sofa</div>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-900 font-bold">$165.50</span>
+                    <span class="text-xs text-gray-400">(892)</span>
+                  </div>
+                  <div class="flex items-center gap-0.5 mt-1">
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="border border-gray-100 rounded-lg p-2">
+                  <div class="aspect-video rounded-lg bg-gray-100 overflow-hidden mb-2">
+                    <img
+                      src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300&h=200&fit=crop"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="text-xs font-medium text-gray-900 truncate">L-Shaped Sectional</div>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-900 font-bold">$299.00</span>
+                    <span class="text-xs text-gray-400">(667)</span>
+                  </div>
+                  <div class="flex items-center gap-0.5 mt-1">
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <svg class="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 关键词词库 -->
+            <div class="w-56 flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-gray-900">关键词词库</h3>
+                <button class="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  添加
+                </button>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs border border-blue-100 cursor-pointer hover:bg-blue-100 transition-colors"
+                  >couch</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs border border-blue-100 cursor-pointer hover:bg-blue-100 transition-colors"
+                  >sofa</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs border border-blue-100 cursor-pointer hover:bg-blue-100 transition-colors"
+                  >modern sofa</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-gray-50 text-gray-600 rounded-lg text-xs border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+                  >living room sofa</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-gray-50 text-gray-600 rounded-lg text-xs border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+                  >fabric couch</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-gray-50 text-gray-600 rounded-lg text-xs border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+                  >sectional sofa</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- 第三行：AI内容生成 + 合规检查 + 资料包预览 -->
+          <div class="flex gap-4 mb-4">
+            <!-- AI内容生成 -->
+            <div class="flex-1 bg-white rounded-xl border border-gray-200 p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-gray-900">AI 内容生成</h3>
+                <div class="flex items-center gap-1">
+                  <button
+                    class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="flex gap-2 mb-3">
+                <button
+                  class="px-3 py-1 rounded-md bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100"
+                >
+                  Amazon
+                </button>
+                <button
+                  class="px-3 py-1 rounded-md text-gray-500 text-xs hover:bg-gray-50 transition-colors"
+                >
+                  Shopify
+                </button>
+                <button
+                  class="px-3 py-1 rounded-md text-gray-500 text-xs hover:bg-gray-50 transition-colors"
+                >
+                  SEO
+                </button>
+              </div>
+              <div class="mb-3">
+                <div class="text-xs text-gray-500 mb-1.5">标题</div>
+                <input
+                  type="text"
+                  value="Modern 3-Seat Fabric Sofa Couch Comfortable Living Room Furniture"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
+              <div class="mb-3">
+                <div class="text-xs text-gray-500 mb-1.5">五点描述</div>
+                <div class="space-y-2">
+                  <div class="flex items-start gap-2">
+                    <svg
+                      class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-sm text-gray-600"
+                      >Modern minimalist design fits any decor</span
+                    >
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <svg
+                      class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-sm text-gray-600"
+                      >Premium linen fabric, soft & breathable</span
+                    >
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <svg
+                      class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-sm text-gray-600">Solid wood frame, strong & durable</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <svg
+                      class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-sm text-gray-600">Comfortable 3-seat for family use</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <svg
+                      class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-sm text-gray-600"
+                      >Easy to clean, removable cushion covers</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full py-2 gradient-blue text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                生成更多版本
+              </button>
+            </div>
+
+            <!-- 合规检查 -->
+            <div class="w-56 flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4">
+              <h3 class="text-sm font-semibold text-gray-900 mb-3">合规检查</h3>
+              <div class="flex items-center gap-2 mb-4">
+                <div
+                  class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span class="text-lg font-bold text-green-600">通过</span>
+              </div>
+              <div class="space-y-2.5">
+                <div class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4 text-green-500 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-xs text-gray-600">无违规词</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4 text-green-500 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-xs text-gray-600">尺寸描述完整</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4 text-green-500 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-xs text-gray-600">材质信息准确</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4 text-green-500 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-xs text-gray-600">价格合理</span>
+                </div>
+              </div>
+              <button class="mt-4 text-xs text-blue-600 hover:text-blue-700">查看详情</button>
+            </div>
+
+            <!-- 资料包预览 -->
+            <div class="w-56 flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4">
+              <h3 class="text-sm font-semibold text-gray-900 mb-3">资料包预览</h3>
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                <div
+                  class="flex flex-col items-center gap-1 p-2 bg-gray-50 rounded-lg border border-gray-100"
+                >
+                  <svg
+                    class="w-8 h-8 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <span class="text-[10px] text-gray-500 text-center">product-data.xlsx</span>
+                </div>
+                <div
+                  class="flex flex-col items-center gap-1 p-2 bg-gray-50 rounded-lg border border-gray-100"
+                >
+                  <svg
+                    class="w-8 h-8 text-yellow-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span class="text-[10px] text-gray-500 text-center">images/(6)</span>
+                </div>
+                <div
+                  class="flex flex-col items-center gap-1 p-2 bg-gray-50 rounded-lg border border-gray-100"
+                >
+                  <svg
+                    class="w-8 h-8 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <span class="text-[10px] text-gray-500 text-center">ai-content.txt</span>
+                </div>
+                <div
+                  class="flex flex-col items-center gap-1 p-2 bg-gray-50 rounded-lg border border-gray-100"
+                >
+                  <svg
+                    class="w-8 h-8 text-blue-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+                    />
+                  </svg>
+                  <span class="text-[10px] text-gray-500 text-center">keywords.csv</span>
+                </div>
+              </div>
+              <button
+                class="w-full py-2 gradient-blue text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                打包下载
+              </button>
+            </div>
+          </div>
+
+          <!-- 底部流程图 -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-center justify-between">
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">创建项目</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">采集商品</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">AI 解析图片</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">人工校验</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">整理资料表</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">分析竞品</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">生成内容</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">合规检查</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-300 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              <div class="flex-1 flex items-center justify-center gap-2 relative">
+                <div
+                  class="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
+                  </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-900">导出资料包</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // 节点点击选中效果
+      document.querySelectorAll('.node-card').forEach((node) => {
+        node.addEventListener('click', function () {
+          document.querySelectorAll('.node-card').forEach((n) => {
+            n.classList.remove('border-2', 'border-blue-500', 'shadow-sm', 'shadow-blue-100')
+            n.classList.add('border', 'border-gray-200')
+          })
+          this.classList.remove('border', 'border-gray-200')
+          this.classList.add('border-2', 'border-blue-500', 'shadow-sm', 'shadow-blue-100')
+        })
+      })
+    </script>
+  </body>
+</html>
