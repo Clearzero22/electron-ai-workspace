@@ -92,8 +92,9 @@ class AIService:
             # 可以调用OpenAI API、Claude API等
 
             # 模拟生成的描述
+            features_str = ', '.join(features[:3]) if features else '舒适耐用，易于清洁'
             description = f"""高质量{material}材质{name}，现代简约风格设计。
-特点：{', '.join(features[:3])} if features else '舒适耐用，易于清洁'}。
+特点：{features_str}。
 适合现代家居环境，为您的客厅增添时尚气息。
 规格齐全，支持定制。"""
 
