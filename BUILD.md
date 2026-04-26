@@ -1,0 +1,212 @@
+# AI CrossBorder Workspace - 打包和代码混淆指南
+
+## 📦 打包命令
+
+### 开发环境
+```bash
+npm run dev
+```
+
+### 生产环境打包
+
+#### Windows
+```bash
+npm run build:win
+```
+输出：`release/ai-crossborder-workspace-1.0.0-x64.exe` (安装包)
+      `release/ai-crossborder-workspace-1.0.0-x64.exe` (便携版)
+
+#### macOS
+```bash
+npm run build:mac
+```
+输出：`release/AI CrossBorder Workspace-1.0.0-x64.dmg` (Intel)
+      `release/AI CrossBorder Workspace-1.0.0-arm64.dmg` (Apple Silicon)
+      `release/AI CrossBorder Workspace-1.0.0-universal.dmg` (通用版)
+
+#### Linux
+```bash
+npm run build:linux
+```
+输出：`release/ai-crossborder-workspace-1.0.0-x64.AppImage`
+      `release/ai-crossborder-workspace-1.0.0-x64.deb`
+
+#### 所有平台
+```bash
+npm run build:all
+```
+
+## 🔒 代码混淆配置
+
+项目已配置以下安全措施：
+
+### 1. JavaScript代码混淆
+- **控制流扁平化**：打乱代码逻辑流程
+- **死代码注入**：插入无用代码
+- **字符串数组加密**：Base64编码
+- **标识符重命名**：十六进制命名
+- **自我保护**：防止格式化和调试
+- **禁用console**：移除所有调试输出
+
+### 2. 代码压缩和优化
+- Terser压缩
+- 删除console.log
+- 删除debugger
+- 移除注释
+
+### 3. ASAR打包
+- 所有代码打包到asar文件
+- 二进制格式，难以查看和修改
+- 减少文件数量和体积
+
+### 4. 构建优化
+- Tree-shaking：移除未使用代码
+- Code-splitting：代码分割
+- 资源压缩：图片、字体等
+
+## 🛡️ 安全建议
+
+### 基础安全措施
+1. **环境变量保护**：敏感信息使用.env文件（已排除在打包外）
+2. **Source Map禁用**：生产环境不生成源映射
+3. **CSP策略**：Content Security Policy限制资源加载
+
+### 高级安全措施
+4. **代码签名**（Windows/macOS）：
+   ```bash
+   # Windows: 购买代码签名证书
+   # macOS: 使用Apple Developer账号
+   ```
+
+5. **许可证验证**：实现软件授权系统
+
+6. **反调试**：
+   ```javascript
+   // vite.plugins.ts 中设置
+   debugProtection: true  // 强烈建议在最终版本启用
+   ```
+
+7. **完整性检查**：
+   ```javascript
+   // 在主进程中检查应用是否被篡改
+   const { app } = require('electron');
+   app.on('ready', () => {
+     // 检查asar包的哈希值
+   });
+   ```
+
+## 📏 打包体积优化
+
+### 1. 分析打包体积
+```bash
+npm install -D electron-builder-clean
+```
+
+### 2. 优化建议
+- **删除不必要的依赖**：检查package.json
+- **使用生产依赖**：devDependencies不会被打包
+- **压缩资源**：图片使用WebP格式
+- **懒加载**：按需加载模块
+
+### 3. 体积对比
+| 配置 | 体积 |
+|------|------|
+| 未优化 | ~150MB |
+| ASAR打包 | ~100MB |
+| 代码压缩 | ~80MB |
+| 资源优化 | ~60MB |
+
+## 🚀 发布流程
+
+### 1. 版本号管理
+```bash
+# 更新版本号
+npm version patch  # 1.0.0 -> 1.0.1
+npm version minor  # 1.0.1 -> 1.1.0
+npm version major  # 1.1.0 -> 2.0.0
+```
+
+### 2. 构建发布包
+```bash
+npm run build:win
+```
+
+### 3. 发布到GitHub Releases
+```bash
+# 使用electron-builder自动发布
+npm run build:win -- --publish always
+```
+
+### 4. 自动更新
+项目已配置 `electron-updater`，用户会收到更新通知。
+
+## 📋 打包清单
+
+- [ ] 更新版本号
+- [ ] 更新CHANGELOG.md
+- [ ] 运行测试：`npm test`
+- [ ] 代码检查：`npm run lint`
+- [ ] 类型检查：`npm run typecheck`
+- [ ] 构建项目：`npm run build`
+- [ ] 测试安装包
+- [ ] 代码签名（生产环境）
+- [ ] 发布到GitHub Releases
+
+## 🔧 常见问题
+
+### Q1: 打包失败？
+```bash
+# 清理缓存
+rm -rf node_modules
+rm -rf out
+rm -rf release
+npm install
+npm run build
+```
+
+### Q2: 应用体积太大？
+- 检查是否包含了不必要的文件
+- 使用 `--dir` 模式检查输出目录
+- 考虑使用 `electron-builder-clean` 优化
+
+### Q3: 代码混淆后运行报错？
+- 检查 `vite.plugins.ts` 中的排除项
+- 确保关键函数没有被重命名
+- 测试混淆后的代码功能
+
+### Q4: Windows Defender报警？
+- 这是正常现象，未签名的应用会被标记
+- 解决方法：购买代码签名证书
+
+## 📞 技术支持
+
+- Electron文档：https://www.electronjs.org/docs
+- electron-builder：https://www.electron.build/
+- 代码混淆：https://github.com/javascript-obfuscator/javascript-obfuscator
+
+## ⚠️ 重要提示
+
+1. **首次打包建议使用 `--dir` 参数**：
+   ```bash
+   npm run build:unpack
+   ```
+   这会生成未打包的目录，便于调试。
+
+2. **生产环境打包前务必测试**：
+   - 在干净的环境中测试安装包
+   - 确保所有功能正常
+   - 检查自动更新功能
+
+3. **代码混淆的影响**：
+   - 打包时间增加2-3倍
+   - 首次启动可能稍慢
+   - 调试变得困难
+   - 建议在开发环境禁用混淆
+
+4. **最终版本检查清单**：
+   - [ ] 禁用所有调试输出
+   - [ ] 启用代码签名
+   - [ ] 配置自动更新
+   - [ ] 优化应用图标
+   - [ ] 准备用户文档
+   - [ ] 配置错误上报

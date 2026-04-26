@@ -4,3 +4,12 @@ out
 .DS_Store
 .eslintcache
 *.log*
+
+# Build outputs
+release/
+build/
+
+# Package manager locks
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
