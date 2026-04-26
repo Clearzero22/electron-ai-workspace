@@ -132,16 +132,7 @@ export function registerWindowIPCHandlers() {
     return { success: false }
   })
 
-  ipcMain.handle('window:close', async (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (win) {
-      win.close()
-      return { success: true }
-    }
-    return { success: false }
-  })
-
-  ipcMain.handle('window:hide', async (event) => {
+  ipcMain.handle('window:hideWindow', async (event) => {
     const win = BrowserWindow.fromWebContents(event.sender)
     if (win) {
       win.hide()
@@ -150,7 +141,7 @@ export function registerWindowIPCHandlers() {
     return { success: false }
   })
 
-  ipcMain.handle('window:show', async (event) => {
+  ipcMain.handle('window:showWindow', async (event) => {
     const win = BrowserWindow.fromWebContents(event.sender)
     if (win) {
       win.show()

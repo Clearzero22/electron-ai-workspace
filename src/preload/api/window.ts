@@ -81,11 +81,11 @@ export const windowAPI = {
   },
 
   async hide(): Promise<{ success: boolean }> {
-    return ipcRenderer.invoke('window:hide')
+    return ipcRenderer.invoke('window:hideWindow')
   },
 
   async show(): Promise<{ success: boolean }> {
-    return ipcRenderer.invoke('window:show')
+    return ipcRenderer.invoke('window:showWindow')
   },
 
   async focus(): Promise<{ success: boolean }> {
