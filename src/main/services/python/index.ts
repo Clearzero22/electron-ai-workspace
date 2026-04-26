@@ -1,7 +1,7 @@
 // Electron主进程 - Python服务集成
 import { spawn, ChildProcess } from 'child_process'
 import { join } from 'path'
-import { app } from 'electron'
+import { app, ipcMain } from 'electron'
 import { Logger } from '../../utils/logger'
 
 /**
@@ -306,8 +306,6 @@ export function destroyPythonService() {
  * 注册Python服务的IPC处理器
  */
 export function registerPythonIPCHandlers() {
-  const { ipcMain } = require('electron')
-
   ipcMain.handle('python:analyzeImage', async (_event, imagePath: string) => {
     return getPythonService().analyzeImage(imagePath)
   })

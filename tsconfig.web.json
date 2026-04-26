@@ -11,9 +11,16 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ]
+      "@/*": ["src/renderer/src/*"],
+      "@renderer/*": ["src/renderer/src/*"],
+      "@components/*": ["src/renderer/src/components/*"],
+      "@hooks/*": ["src/renderer/src/hooks/*"],
+      "@utils/*": ["src/renderer/src/utils/*"],
+      "@types/*": ["src/renderer/src/types/*"],
+      "@constants/*": ["src/renderer/src/constants/*"],
+      "@assets/*": ["src/renderer/src/assets/*"],
+      "@pages/*": ["src/renderer/src/pages/*"],
+      "@services/*": ["src/renderer/src/services/*"]
     }
   }
 }

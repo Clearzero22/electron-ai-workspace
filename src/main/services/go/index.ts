@@ -1,7 +1,7 @@
 // Electron主进程 - Go服务集成
 import { spawn, ChildProcess } from 'child_process'
 import { join } from 'path'
-import { app } from 'electron'
+import { app, ipcMain } from 'electron'
 import { Logger } from '../../utils/logger'
 
 /**
@@ -254,8 +254,6 @@ export function destroyGoService() {
  * 注册Go服务的IPC处理器
  */
 export function registerGoIPCHandlers() {
-  const { ipcMain } = require('electron')
-
   ipcMain.handle('go:crawlProduct', async (_event, url: string) => {
     return getGoService().crawlProduct(url)
   })

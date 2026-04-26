@@ -13,7 +13,16 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '@': resolve('src/renderer/src'),
+        '@renderer': resolve('src/renderer/src'),
+        '@components': resolve('src/renderer/src/components'),
+        '@hooks': resolve('src/renderer/src/hooks'),
+        '@utils': resolve('src/renderer/src/utils'),
+        '@types': resolve('src/renderer/src/types'),
+        '@constants': resolve('src/renderer/src/constants'),
+        '@assets': resolve('src/renderer/src/assets'),
+        '@pages': resolve('src/renderer/src/pages'),
+        '@services': resolve('src/renderer/src/services')
       }
     },
     plugins: [

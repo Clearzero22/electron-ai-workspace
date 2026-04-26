@@ -260,20 +260,6 @@ export function getServiceManager(): ServiceManager {
   return ServiceManager.getInstance()
 }
 
-/**
- * 获取Python服务
- */
-export function getPythonService() {
-  return getServiceManager().python
-}
-
-/**
- * 获取Go服务
- */
-export function getGoService() {
-  return getServiceManager().go
-}
-
 // ========== 应用退出时清理 ==========
 
 /**

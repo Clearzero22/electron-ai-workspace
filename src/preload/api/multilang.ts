@@ -97,7 +97,5 @@ export const multilangAPI = {
  * 在contextBridge中暴露多语言API
  */
 export function exposeMultilangAPI() {
-  contextBridge.exposeInMainWorld('electronAPI', {
-    multilang: multilangAPI
-  })
+  contextBridge.exposeInMainWorld('multilang', multilangAPI)
 }
