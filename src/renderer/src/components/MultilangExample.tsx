@@ -3,7 +3,7 @@
  * 展示如何在React组件中使用Python和Go服务
  */
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useMultilangServices } from '@/hooks/useMultilangService'
 
 export default function MultilangExample() {

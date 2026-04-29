@@ -1,7 +1,7 @@
 // Electron主进程 - Python服务集成
 import { spawn, ChildProcess } from 'child_process'
 import { join } from 'path'
-import { app, ipcMain } from 'electron'
+import { ipcMain } from 'electron'
 import { Logger } from '../../utils/logger'
 
 /**
@@ -181,7 +181,7 @@ export class PythonService {
    */
   private handleProcessExit() {
     // 拒绝所有待处理的请求
-    for (const [id, callback] of this.pendingRequests) {
+    for (const [, callback] of this.pendingRequests) {
       clearTimeout(callback.timeout)
       callback.reject(new Error('Python service disconnected'))
     }
@@ -214,7 +214,7 @@ export class PythonService {
       }
 
       try {
-        this.process?.stdin.write(JSON.stringify(request) + '\n')
+        this.process?.stdin?.write(JSON.stringify(request) + '\n')
         this.logger.debug(`Sent request: ${method} (id: ${id})`)
       } catch (error) {
         clearTimeout(timer)

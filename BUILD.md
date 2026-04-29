@@ -7,6 +7,77 @@
 npm run dev
 ```
 
+### 实际构建验证产物
+
+以下为 macOS 环境下 `npm run build:all` 的实际构建结果：
+
+| 平台 | 文件 | 大小 |
+|------|------|------|
+| macOS (Intel) | `AI CrossBorder Workspace-1.0.0-x64.dmg` | 114 MB |
+| macOS (Apple Silicon) | `AI CrossBorder Workspace-1.0.0-arm64.dmg` | 106 MB |
+| Windows (x64) | `AI CrossBorder Workspace-1.0.0-x64.exe` | 93 MB |
+| Linux (x64) | `AI CrossBorder Workspace-1.0.0-x86_64.AppImage` | 112 MB |
+
+## 构建流程详解
+
+### 命令执行链
+
+```
+npm run build:all
+  └→ npm run build              # 步骤1: 类型检查 + Vite 编译
+       ├→ npm run typecheck      #   tsc --noEmit (node + web 两套tsconfig)
+       └→ electron-vite build    #   分别构建 main / preload / renderer
+  └→ electron-builder -mwl      # 步骤2: 打包 mac + win + linux
+```
+
+### 步骤1: 类型检查 + Vite 编译
+
+`npm run build` 会先执行类型检查，**任何 TS 错误都会阻止构建**。常见错误及修复方式：
+
+| 错误类型 | 说明 | 修复方式 |
+|---------|------|---------|
+| TS6133 | 未使用的导入/变量 | 删除未使用的 `import` 语句 |
+| TS2531 | 可能为 null 的对象 | 使用可选链 `?.` 如 `this.process?.stdin?.write()` |
+
+**注意**: React 19 + Vite 7 配置下，JSX 转换不需要显式导入 React，`import React from 'react'` 应移除，只保留需要的具名导入如 `{ useState, useEffect }`。
+
+类型检查通过后，`electron-vite build` 分别编译三个目标：
+- **main** — Node.js 环境，代码混淆（javascript-obfuscator）
+- **preload** — Node.js 环境，代码混淆
+- **renderer** — 浏览器环境，React + 代码混淆 + 路径别名
+
+### 步骤2: electron-builder 多平台打包
+
+各平台打包流程：
+
+**macOS (x64 + arm64)**
+1. 下载对应架构的 Electron 二进制 (~118MB)
+2. @electron/rebuild 编译 native 模块
+3. Apple 开发者证书签名
+4. 生成 DMG 安装镜像
+
+**Windows (x64)**
+1. 下载 Electron 二进制 (~137MB)
+2. electron-builder 自动下载内置的 wine-4.0.1 + NSIS 工具链（**不需要系统安装 wine**）
+3. 使用 winCodeSign 签名
+4. 生成 NSIS 安装包 (.exe)
+
+**Linux (x64)**
+1. 下载 Electron 二进制 (~113MB)
+2. 生成 AppImage
+
+### 关于 Wine 的说明
+
+在 macOS 上交叉编译 Windows 安装包时：
+- **不需要** 手动安装 `brew install --cask wine-stable`（GitHub 上的构建源已失效，会 404）
+- `electron-builder` 内置了精简版 wine (`wine-4.0.1-mac`)，构建时自动下载使用
+
+### macOS 签名说明
+
+当前构建使用 Apple Development 证书签名，但跳过了公证（notarization）。如需分发，需要：
+1. 配置 Apple ID 和 App-specific password 到环境变量
+2. 在 `electron-builder.yml` 中配置 `afterSign` 脚本
+
 ### 生产环境打包
 
 #### Windows

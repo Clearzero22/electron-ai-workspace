@@ -3,7 +3,7 @@
  * 统一管理应用中的所有窗口
  */
 
-import { BrowserWindow, app } from 'electron'
+import { BrowserWindow } from 'electron'
 import { join } from 'path'
 
 export interface WindowConfig {

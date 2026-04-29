@@ -27,7 +27,7 @@ export default function WorkflowEditor() {
   const [workflowEnabled, setWorkflowEnabled] = useState(true)
 
   // 工作流节点定义
-  const [workflowNodes, setWorkflowNodes] = useState<WorkflowNode[]>([
+  const [workflowNodes] = useState<WorkflowNode[]>([
     {
       id: 'start',
       node: {

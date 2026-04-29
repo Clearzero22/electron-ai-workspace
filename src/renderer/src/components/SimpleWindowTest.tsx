@@ -3,7 +3,7 @@
  * 用于快速验证API是否正常工作
  */
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function SimpleWindowTest() {
   const [status, setStatus] = useState<string>('检查中...')
