@@ -3,14 +3,14 @@
  * 展示如何使用窗口管理功能
  */
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useWindowManager, useWindowCommunication, WindowPresets } from '../hooks/useWindowManager'
 
 export default function WindowDemo() {
-  const [isReady, setIsReady] = useState(false)
+  const [, setIsReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const { allWindows, createWindow, closeWindow, broadcast, sendToWindow, windowInfo, refreshAllWindows } =
+  const { allWindows, createWindow, closeWindow, broadcast, windowInfo } =
     useWindowManager()
 
   const [message, setMessage] = useState('')

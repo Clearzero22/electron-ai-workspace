@@ -3,7 +3,7 @@
  * 包含页面切换和导航功能
  */
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import WorkflowEditor from '../components/WorkflowEditor'
 import MultilangTestPage from '../components/MultilangTestPage'
 import WorkspaceMain from '../components/workspace/Workspace'

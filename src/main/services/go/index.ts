@@ -1,7 +1,7 @@
 // Electron主进程 - Go服务集成
 import { spawn, ChildProcess } from 'child_process'
 import { join } from 'path'
-import { app, ipcMain } from 'electron'
+import { ipcMain } from 'electron'
 import { Logger } from '../../utils/logger'
 
 /**
@@ -161,7 +161,7 @@ export class GoService {
       }
 
       try {
-        this.process?.stdin.write(JSON.stringify(request) + '\n')
+        this.process?.stdin?.write(JSON.stringify(request) + '\n')
         this.logger.debug(`Sent Go request: ${method} (id: ${id})`)
       } catch (error) {
         clearTimeout(timer)

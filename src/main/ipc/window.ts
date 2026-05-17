@@ -15,7 +15,7 @@ export function registerWindowIPCHandlers() {
    */
   ipcMain.handle('window:create', async (_event, config: WindowConfig) => {
     try {
-      const window = windowManager.createWindow(config)
+      windowManager.createWindow(config)
       return {
         success: true,
         windowId: config.id

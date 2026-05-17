@@ -2,7 +2,7 @@
  * 多语言服务测试页面
  */
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useMultilangServices } from '@/hooks/useMultilangService'
 
 export default function MultilangTestPage() {
